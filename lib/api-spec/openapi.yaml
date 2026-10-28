@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: workspace
+    description: Workspace chat and agent execution state
 paths:
   /healthz:
     get:
@@ -24,6 +26,58 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /workspace-state:
+    get:
+      operationId: getWorkspaceState
+      tags: [workspace]
+      summary: Load workspace messages and the latest agent checkpoint
+      responses:
+        "200":
+          description: Current workspace state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkspaceState"
+  /chat-messages:
+    post:
+      operationId: createChatMessage
+      tags: [workspace]
+      summary: Save a message to a channel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMessageInput"
+      responses:
+        "201":
+          description: Saved message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+        "400":
+          description: Invalid message
+  /agent-run/checkpoints:
+    post:
+      operationId: createAgentRunCheckpoint
+      tags: [workspace]
+      summary: Save an agent execution checkpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRunCheckpointInput"
+      responses:
+        "201":
+          description: Saved agent checkpoint
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRunState"
+        "400":
+          description: Invalid checkpoint
 components:
   schemas:
     HealthStatus:
@@ -33,4 +87,83 @@ components:
           type: string
       required:
         - status
+    ChannelName:
+      type: string
+      enum: [general-dev, announcements, backend-go, frontend-react]
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        channel:
+          $ref: "#/components/schemas/ChannelName"
+        author:
+          type: string
+        initials:
+          type: string
+        body:
+          type: string
+        avatar:
+          type: ["string", "null"]
+        kind:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, channel, author, initials, body, avatar, kind, createdAt]
+    ChatMessageInput:
+      type: object
+      properties:
+        channel:
+          $ref: "#/components/schemas/ChannelName"
+        body:
+          type: string
+          minLength: 1
+          maxLength: 5000
+      required: [channel, body]
+    AgentRunStep:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [complete, paused, pending]
+        duration:
+          type: string
+      required: [title, description, status, duration]
+    AgentRunCheckpointInput:
+      type: object
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgentRunStep"
+        override:
+          type: string
+        approval:
+          type: string
+          enum: [pending, approved, changes]
+      required: [steps, override, approval]
+    AgentRunState:
+      allOf:
+        - $ref: "#/components/schemas/AgentRunCheckpointInput"
+        - type: object
+          properties:
+            updatedAt:
+              type: string
+              format: date-time
+          required: [updatedAt]
+    WorkspaceState:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+        agentRun:
+          $ref: "#/components/schemas/AgentRunState"
+      required: [messages, agentRun]
 

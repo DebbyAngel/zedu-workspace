@@ -214,6 +214,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .flow-step:not(:last-child)::after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,#6a7e9b,transparent);opacity:.35}
 .notice {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 10px;background:#102c32;border-bottom:1px solid #1b655e;color:#9ce9dc;font-size:9px}
 .notice button {display:grid;place-items:center;padding:2px;border:0;background:transparent;color:#a8c7c9}
+.workspace-state-banner {display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 10px;padding:8px 10px;border:1px solid #32435b;border-radius:7px;background:#111f32;color:#b8c8dd;font-size:10px}
+.workspace-state-banner.error {border-color:#74434a;background:#2b1a25;color:#f2b9bd}
+.workspace-state-banner button {padding:3px 8px;border:1px solid currentColor;border-radius:5px;background:transparent;color:inherit;font-size:10px}
+.workspace-state-banner button:hover {background:#ffffff10}
 .side-empty {padding:8px;color:#8292a8;font-size:9px}
 .execution-foot {display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:9px;color:#9cacc0;font-size:8px}
 .execution-foot > span {display:flex;align-items:center}
