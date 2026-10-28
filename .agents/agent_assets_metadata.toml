@@ -14,3 +14,17 @@ mtime_ms = 1793164255951
 storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:9d2cda6c-e3ef-4787-8363-5593550eb9c0/793bed6a-d84f-4ca2-bcc2-6bb032405f9c/36d45373-82bf-4453-84c9-bcdbeabca5ee"
 storage_version_token = "1793164263251949"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "vF-wbTmI-z8jrQZ3NbPYd"
+uri = "file://generated-artifacts/zedu-workspace-download.html"
+type = "html"
+title = "Download Zedu Workspace ZIP"
+description = "Open this page and click Download ZIP to save the project archive."
+logical_id = "7e794bd3-2290-4059-9ee5-400454743203"
+content_hash = "sha256:dd79b11627263d99ea3ad14a0581ad3b9dac0d5aa53a754e5044ae5c1b9dc66e"
+size = 322818
+mtime_ms = 1793164665767
+storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:9d2cda6c-e3ef-4787-8363-5593550eb9c0/7e794bd3-2290-4059-9ee5-400454743203/43472bbc-2541-43cc-96a2-0e92bb112952"
+storage_version_token = "1793164671111101"
+content_type = "text/html"
