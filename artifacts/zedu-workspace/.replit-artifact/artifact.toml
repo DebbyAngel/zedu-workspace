@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Zedu Workspace"
+description = "A collaborative developer workspace prototype with team chat and an AI coding agent execution canvas. Users can browse channels, follow a pull-request review discussion, and pause or resume the agent workflow."
+version = "1.0.0"
+id = "artifacts/zedu-workspace"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19871
+
+[services.development]
+run = "pnpm --filter @workspace/zedu-workspace run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/zedu-workspace", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/zedu-workspace/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19871"
+BASE_PATH = "/"
