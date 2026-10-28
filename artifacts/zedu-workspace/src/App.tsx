@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 import {
   Activity, ArrowLeft, ArrowRight, Bell, Check, CheckCircle2, ChevronDown,
-  ChevronRight, ChevronUp, Clock3, Code2, FileText, Hash, MoreHorizontal,
+  ChevronRight, ChevronUp, Clock3, Code2, Download, FileText, Hash, MoreHorizontal,
   Paperclip, Pause, Play, Plus, Search, Send, Smile, Sparkles,
   UserRound, Users, WandSparkles, X,
 } from 'lucide-react';
@@ -155,6 +155,9 @@ function Home() {
           <div className="profile" data-testid="avatar-profile">PD</div>
           <button className="top-icon" aria-label="Profile menu" data-testid="button-profile-menu" onClick={() => setNotice('Signed in as Priya Desai')}><ChevronDown size={11} /></button>
         </div>
+        <a className="download-source" href={`${import.meta.env.BASE_URL}zedu-workspace-project.zip`} download="zedu-workspace-project.zip" aria-label="Download project ZIP" data-testid="link-download-source">
+          <Download size={13} /><span>Download ZIP</span>
+        </a>
         <button className="canvas-active" data-testid="button-canvas-status" onClick={() => setNotice(isPaused ? 'Ziki Canvas is paused at the current step' : 'Ziki Canvas is running') }><ZapIcon /> Ziki Canvas · {isPaused ? 'Paused' : 'Active'}</button>
       </header>
 

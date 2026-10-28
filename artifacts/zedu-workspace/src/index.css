@@ -98,6 +98,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .online-dot { width:7px;height:7px;border-radius:50%;background:#20d2aa;display:inline-block;box-shadow:0 0 9px #20d2aa66; margin-right:5px; }
 .top-icon { border:0; background:transparent; padding:5px; display:grid; place-items:center; color:#c3ccda; }
 .profile { width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#697493;color:#fff;font-size:9px;font-weight:700; }
+.download-source { display:flex;align-items:center;justify-content:center;gap:6px;min-height:27px;padding:0 10px;border:1px solid #1ca398;border-radius:6px;background:#087f78;color:#effffc;text-decoration:none;font-size:9px;font-weight:600;white-space:nowrap;transition:background .15s,transform .15s; }
+.download-source:hover { background:#0b9388;transform:translateY(-1px); }
+.download-source:focus-visible { outline:2px solid #77ded4;outline-offset:2px; }
 .canvas-active { display:flex;align-items:center;gap:6px;padding:7px 11px;border:0;border-radius:5px;background:#087f78;color:#effffc;font-size:10px; }
 
 .main-grid { min-height:0; display:grid; grid-template-columns:194px minmax(340px,1.3fr) minmax(320px,.98fr); }
@@ -238,6 +241,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
   .topbar{position:sticky;top:0}
   .top-search{width:auto;flex:1;margin:0}
   .top-meta .online-text,.top-meta .top-icon,.canvas-active{display:none}
+  .download-source{width:31px;min-width:31px;height:29px;padding:0}
+  .download-source span{display:none}
   .main-grid{grid-template-columns:1fr;grid-template-rows:auto minmax(490px,66dvh) auto}
   .sidebar{display:none}
   .chat-panel{border-right:0}
