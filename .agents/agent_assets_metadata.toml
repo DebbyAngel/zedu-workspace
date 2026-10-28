@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "aWU7TG1Q4O-P2f9S8_CDN"
+uri = "file://generated-artifacts/zedu-workspace-project.zip"
+type = "unspecified"
+title = "Zedu Workspace project ZIP"
+description = "Download the Zedu Workspace source bundle. It includes the app and workspace source files; node_modules and generated build output are excluded."
+logical_id = "793bed6a-d84f-4ca2-bcc2-6bb032405f9c"
+content_hash = "sha256:e7a9a620437fc04e2fd1a5949e3cb8092efcc6a93e269da31cdfa58eaa6cbaa9"
+size = 240215
+mtime_ms = 1793164255951
+storage_uri = "gcs://replit-rams-assets-janeway/rams/assets/repl:9d2cda6c-e3ef-4787-8363-5593550eb9c0/793bed6a-d84f-4ca2-bcc2-6bb032405f9c/36d45373-82bf-4453-84c9-bcdbeabca5ee"
+storage_version_token = "1793164263251949"
+content_type = "application/octet-stream"
