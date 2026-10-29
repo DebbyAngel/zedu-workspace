@@ -78,6 +78,32 @@ paths:
                 $ref: "#/components/schemas/AgentRunState"
         "400":
           description: Invalid checkpoint
+  /agent-run/analyze:
+    post:
+      operationId: analyzeAgentRun
+      tags: [workspace]
+      summary: Ask Ziki to analyze a task and create a human-reviewed plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeAgentRunInput"
+      responses:
+        "201":
+          description: Saved Ziki response and pending plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ZikiAnalysisResult"
+        "400":
+          description: Invalid task
+        "429":
+          description: Agent request limit reached
+        "502":
+          description: The model could not produce a valid plan
+        "503":
+          description: The server-side model key is not configured
 components:
   schemas:
     HealthStatus:
@@ -156,6 +182,27 @@ components:
               type: string
               format: date-time
           required: [updatedAt]
+    AnalyzeAgentRunInput:
+      type: object
+      properties:
+        channel:
+          $ref: "#/components/schemas/ChannelName"
+        task:
+          type: string
+          minLength: 1
+          maxLength: 1200
+        mode:
+          type: string
+          enum: [analyze, continue, revise]
+      required: [channel, task, mode]
+    ZikiAnalysisResult:
+      type: object
+      properties:
+        message:
+          $ref: "#/components/schemas/ChatMessage"
+        agentRun:
+          $ref: "#/components/schemas/AgentRunState"
+      required: [message, agentRun]
     WorkspaceState:
       type: object
       properties:

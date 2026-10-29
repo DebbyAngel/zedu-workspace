@@ -22,10 +22,12 @@ import type {
 import type {
   AgentRunCheckpointInput,
   AgentRunState,
+  AnalyzeAgentRunInput,
   ChatMessage,
   ChatMessageInput,
   HealthStatus,
-  WorkspaceState
+  WorkspaceState,
+  ZikiAnalysisResult
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -384,4 +386,92 @@ export const useCreateAgentRunCheckpoint = <TError = ErrorType<void>,
         TContext
       > => {
       return useMutation(getCreateAgentRunCheckpointMutationOptions(options));
+    }
+
+export const getAnalyzeAgentRunUrl = () => {
+
+
+
+
+  return `/api/agent-run/analyze`
+}
+
+/**
+ * @summary Ask Ziki to analyze a task and create a human-reviewed plan
+ */
+export const analyzeAgentRun = async (analyzeAgentRunInput: AnalyzeAgentRunInput, options?: Parameters<typeof customFetch>[1]): Promise<ZikiAnalysisResult> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ZikiAnalysisResult>(getAnalyzeAgentRunUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(analyzeAgentRunInput)
+  }
+);}
+
+
+
+
+
+export const getAnalyzeAgentRunMutationKey = () => ['analyzeAgentRun'] as const;
+
+export const getAnalyzeAgentRunMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof analyzeAgentRun>>, TError,AnalyzeAgentRunMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof analyzeAgentRun>>, TError,AnalyzeAgentRunMutationVariables, TContext> => {
+
+const mutationKey = getAnalyzeAgentRunMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof analyzeAgentRun>>, AnalyzeAgentRunMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  analyzeAgentRun(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AnalyzeAgentRunMutationResult = NonNullable<Awaited<ReturnType<typeof analyzeAgentRun>>>
+    export type AnalyzeAgentRunMutationBody = BodyType<AnalyzeAgentRunInput>
+    export type AnalyzeAgentRunMutationError = ErrorType<void>
+    export type AnalyzeAgentRunMutationVariables = {data: BodyType<AnalyzeAgentRunInput>}
+
+    /**
+ * @summary Ask Ziki to analyze a task and create a human-reviewed plan
+ */
+export const useAnalyzeAgentRun = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof analyzeAgentRun>>, TError,AnalyzeAgentRunMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof analyzeAgentRun>>,
+        TError,
+        AnalyzeAgentRunMutationVariables,
+        TContext
+      > => {
+      return useMutation(getAnalyzeAgentRunMutationOptions(options));
     }

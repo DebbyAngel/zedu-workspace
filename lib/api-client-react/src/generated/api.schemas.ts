@@ -76,6 +76,30 @@ export type AgentRunState = AgentRunCheckpointInput & {
   updatedAt: string;
 };
 
+export type AnalyzeAgentRunInputMode = typeof AnalyzeAgentRunInputMode[keyof typeof AnalyzeAgentRunInputMode];
+
+
+export const AnalyzeAgentRunInputMode = {
+  analyze: 'analyze',
+  continue: 'continue',
+  revise: 'revise',
+} as const;
+
+export interface AnalyzeAgentRunInput {
+  channel: ChannelName;
+  /**
+     * @minLength 1
+     * @maxLength 1200
+     */
+  task: string;
+  mode: AnalyzeAgentRunInputMode;
+}
+
+export interface ZikiAnalysisResult {
+  message: ChatMessage;
+  agentRun: AgentRunState;
+}
+
 export interface WorkspaceState {
   messages: ChatMessage[];
   agentRun: AgentRunState;

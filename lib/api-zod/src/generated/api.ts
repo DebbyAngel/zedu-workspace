@@ -45,7 +45,6 @@ export const GetWorkspaceStateResponse = zod.object({
 }))
 })
 
-
 /**
  * @summary Save a message to a channel
  */
@@ -96,3 +95,41 @@ export const CreateAgentRunCheckpointResponse = zod.object({
 }).and(zod.object({
   "updatedAt": zod.coerce.date()
 }))
+
+/**
+ * @summary Ask Ziki to analyze a task and create a human-reviewed plan
+ */
+export const analyzeAgentRunBodyTaskMax = 1200;
+
+
+
+export const AnalyzeAgentRunBody = zod.object({
+  "channel": zod.enum(['general-dev', 'announcements', 'backend-go', 'frontend-react']),
+  "task": zod.string().min(1).max(analyzeAgentRunBodyTaskMax),
+  "mode": zod.enum(['analyze', 'continue', 'revise'])
+})
+
+export const AnalyzeAgentRunResponse = zod.object({
+  "message": zod.object({
+  "id": zod.string(),
+  "channel": zod.enum(['general-dev', 'announcements', 'backend-go', 'frontend-react']),
+  "author": zod.string(),
+  "initials": zod.string(),
+  "body": zod.string(),
+  "avatar": zod.string().nullable(),
+  "kind": zod.string().nullable(),
+  "createdAt": zod.coerce.date()
+}),
+  "agentRun": zod.object({
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "status": zod.enum(['complete', 'paused', 'pending']),
+  "duration": zod.string()
+})),
+  "override": zod.string(),
+  "approval": zod.enum(['pending', 'approved', 'changes'])
+}).and(zod.object({
+  "updatedAt": zod.coerce.date()
+}))
+})

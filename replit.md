@@ -1,6 +1,6 @@
-# [Project name]
+# Zedu Workspace
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A cohort workspace mock with channels, a Ziki AI planning panel, and a human-review gate.
 
 ## Run & Operate
 
@@ -9,7 +9,7 @@ _Replace the heading above with the project's name, and this line with one sente
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string; `XAI_API_KEY` — server-side xAI Responses API key for Ziki
 
 ## Stack
 
@@ -22,23 +22,32 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/zedu-workspace/src/App.tsx` — workspace UI, chat, agent controls, and process flow
+- `artifacts/zedu-workspace/src/index.css` — layout and visual theme
+- `artifacts/api-server/src/routes/workspace.ts` — persisted chat/checkpoint routes and xAI-backed Ziki analysis
+- `lib/api-spec/openapi.yaml` — API source of truth; regenerate clients with the codegen command above
+- `lib/db/src/schema` — Drizzle database schema
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The browser calls Ziki only when a user mentions `@Ziki`; `XAI_API_KEY` stays on the API server.
+- Ziki receives the task and up to six recent messages from that channel. The xAI Responses API request sets `store: false`.
+- Ziki drafts a three-step plan. Approval is recorded as a checkpoint only; this workspace does not edit files, execute code, commit, or deploy.
+- The model route has a best-effort per-IP in-memory rate limit. This public demo has no sign-in; set provider-side usage limits before broad exposure.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Users can explore cohort channels, send messages, ask Ziki for a model-generated plan, inspect or revise the plan, and explicitly record human approval.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+No cross-project preferences are defined here.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The agent panel returns a configuration message until `XAI_API_KEY` is added to the API server's Replit Secrets.
+- Approval does not imply that any code was changed or tested.
+- The agent rate limit is process-local and is not a substitute for authentication or provider-side spend limits.
 
 ## Pointers
 
